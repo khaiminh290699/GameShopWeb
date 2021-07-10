@@ -21,7 +21,7 @@ function useEditorInput(props) {
         )
         :
         EditorState.createEmpty())
-  }, [content])
+  }, [])
 
   const onUploadImage = (file)=>{
     return new Promise((resolve) => {
