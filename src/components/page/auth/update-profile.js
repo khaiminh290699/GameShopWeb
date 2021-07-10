@@ -28,7 +28,7 @@ function UpdateProfile() {
           {
             editPass ?
             <>
-              <Form.Item label="Mật khẩu củ">
+              <Form.Item label="Mật khẩu cũ của bạn">
                 <input type="password" className="ant-input" ref={oldPassRef} placeholder="********"></input>
               </Form.Item>
               <Form.Item label="Mật khẩu mới">

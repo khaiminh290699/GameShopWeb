@@ -2,7 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import api from "../api/index";
 
-function useOrderDetail() {
+function useOrderDetail(props) {
+
+  const { setModal } = props;
+
   const params = useParams();
 
   const [loading, setLoading] = useState(true);
@@ -21,9 +24,28 @@ function useOrderDetail() {
       })
   }, [])
 
+  const onUpdateStatus = (id, status) => {
+    api.updateState(id, status)
+      .then((res) => {
+        const { status: s } = res;
+        if (s != 200) {
+          setModal(
+            <p>Cập nhật trạng thái đơn hàng thất bại</p>
+          )
+          return ;
+        }
+        setModal(
+          <p>Cập nhật trạng thái đơn hàng thành công</p>
+        )
+        order.status = status;
+        setOrder(order);
+      })
+  }
+
   return {
     order,
-    loading
+    loading,
+    onUpdateStatus
   }
 }
 

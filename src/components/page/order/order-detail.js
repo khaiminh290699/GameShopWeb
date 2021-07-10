@@ -14,8 +14,9 @@ function OrderDetail(props) {
 
   const {
     order,
-    loading
-  } = useOrderDetail();
+    loading,
+    onUpdateStatus
+  } = useOrderDetail(props);
 
   if (loading && !order) {
     return <ProductSkeleton></ProductSkeleton>
@@ -37,7 +38,9 @@ function OrderDetail(props) {
       <Info label="Trạng thái đơn hàng" value={getStatus(order.status)} ></Info>
       {
         order.status === 0 ?
-        <Button danger>
+        <Button danger
+          onClick={() => onUpdateStatus(order.id, 3)}
+        >
           Huỷ đơn hàng
         </Button>
         :
