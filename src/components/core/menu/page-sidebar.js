@@ -64,6 +64,11 @@ function PageSidebar(props) {
           user && user.permission > 255 ?
             <Menu.SubMenu title="Quản lý">
               <Menu.Item>
+                <Link to="/admin/statistic">
+                  Thông kê
+                </Link>
+              </Menu.Item>
+              <Menu.Item>
                 <Link to="/admin/category">
                   Danh mục
                 </Link>

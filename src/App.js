@@ -21,6 +21,7 @@ import Layout, { Content } from "antd/lib/layout/layout";
 import CategoryCreate from "./components/page/admin/category-create";
 import ListCategory from "./components/page/admin/list-category";
 import UpdateProfile from "./components/page/auth/update-profile";
+import Statistic from "./components/page/statistic/statistic"
 
 function App() {
   const { user, modal, onOk, setModal, setUser } = useApp();
@@ -72,6 +73,9 @@ function App() {
                   </Route>
                   <Route path="/admin/product">
                     <ListProduct setModal={setModal}></ListProduct>
+                  </Route>
+                  <Route path="/admin/statistic">
+                    <Statistic></Statistic>
                   </Route>
                 </Switch>
               )

@@ -29,7 +29,9 @@ function PageHeader(props) {
         localStorage.removeItem("user");
         localStorage.removeItem("cart");
       }}>
-        Đăng xuất
+        <Link to="/">
+          Đăng xuất
+        </Link>
       </Menu.Item>
       <Menu.Item active={location.pathname === "/cart"}>
         <Link to="/cart">
