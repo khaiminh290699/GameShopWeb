@@ -1,4 +1,4 @@
-import { Button, Card, Col, Divider, Form, Image, Input, InputNumber, Row, Table, Typography } from "antd";
+import { Button, Card, Col, Divider, Form, Image, Input, InputNumber, Row, Select, Table, Typography } from "antd";
 import React from "react";
 import { Link } from "react-router-dom";
 import convertMoney from "../../../ultilities/moneyConvert";
@@ -18,7 +18,13 @@ function Cart(props) {
     addressRef,
     onChangeAmountInCart,
     onCreateOrder,
-    onRejectOrder
+    onRejectOrder,
+    coupons,
+    code,
+    setCode,
+    priceAfterCoupon,
+    coupon,
+    setCoupon
   } = useCart(props);
 
   const columns = [
@@ -49,6 +55,19 @@ function Cart(props) {
               {` ${convertMoney(totalPrice)}`}
             </span>
           </div>
+          {
+            priceAfterCoupon ? 
+            <div style={{ textAlign: "right" }}>
+              <label>
+                Tống tiền sau khi áp dụng ưu đãi : 
+              </label>
+              <span>
+                {` ${convertMoney(priceAfterCoupon)}`}
+              </span>
+            </div>
+            :
+            <></>
+          }
         </Col>
         <Col span={10} style={{ paddingLeft: 10 }}>
           <Card title="Thông tin đơn hàng" >
@@ -60,6 +79,38 @@ function Cart(props) {
                 <Form.Item label="Số điện thoại liên lạc :">
                   <Input ref={phoneRef}></Input>
                 </Form.Item>
+                <Form.Item label="Chọn mã ưu đãi :">
+                  <Select onChange={(value) => {
+                    setCode(value);
+                    setCoupon(coupons.filter(item => item.code === value)[0])
+                  }}>
+                    {
+                      coupons.map((coupon) => {
+                        return (
+                          <Select.Option 
+                            key={coupon.id}
+                            value={coupon.code}
+                          />
+                        )
+                      })
+                    }
+                  </Select>
+                </Form.Item>
+                {
+                  coupon ?
+                  <>
+                    <div>
+                      <label>Mã ưu đãi đã chọn:</label>
+                      <p><b>Mã: </b> {code}</p>
+                      <p><b>Tên ưu đãi: </b> {coupon.title}</p>
+                      <p><b>Giảm giá: </b> { coupon.current === 2 ? `${coupon.discount}%` : convertMoney(coupon.discount) }</p>
+                      <p><b>Giảm tối đa: </b> {convertMoney(coupon.max_discount)}</p>
+                      <p><b>Giá tối thiểu để áp dụng: </b> {convertMoney(coupon.min_total_price)}</p>
+                    </div>
+                  </>
+                  :
+                  <></>
+                }
                 <Form.Item>
                   {
                     ordered ? 

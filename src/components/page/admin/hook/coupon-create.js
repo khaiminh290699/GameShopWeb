@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import api from "../api";
 
-function useCouponCreate() {
+function useCouponCreate(props) {
+  const { setModal } = props;
   const params = useParams();
   const isCreated = params.id ? false : true;
 
@@ -19,8 +20,8 @@ function useCouponCreate() {
     category_no_apply: [],
     banner: [],
     description: null,
-    expiry_at: new Date(),
-    effect_at: new Date(),
+    expiry_at: moment(new Date()).startOf("date"),
+    effect_at: moment(new Date()).endOf("date"),
     amount: 0,
     current: 1,
     discount: 0,
@@ -105,7 +106,30 @@ function useCouponCreate() {
 
     api.createCoupon(
       title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner[0], product_apply, product_no_apply, category_apply, category_no_apply, code, description
-    )
+    ).then((res) => {
+      const { status, message, error, data } = res;
+      if (status === 400) {
+        setModal(
+          <p>
+            {message}
+          </p>
+        )
+        return;
+      }
+
+      if (status === 500) {
+        setModal(
+          <p>
+            {message}
+          </p>
+        )
+        return;
+      }
+
+      setModal(<p>
+        Tạo mã ưu đãi thành công
+      </p>)
+    })
 
   }
 

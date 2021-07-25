@@ -9,6 +9,10 @@ function useCart(props) {
   const [ordered, setOrdered] = useState(false);
   const [cart, setCart] = useState([]);
   const [cartTemp, setCartTemp] = useState([]);
+  const [coupons, setCoupons] = useState([]);
+  const [code, setCode] = useState();
+  const [priceAfterCoupon, setPriceAfterCoupon] = useState();
+  const [coupon, setCoupon] = useState();
 
   const phoneRef = useRef();
   const addressRef = useRef();
@@ -42,7 +46,38 @@ function useCart(props) {
         })
         setCart(cartData);
       })
-  }, [localStorage.getItem("cart")])
+
+      api.getListEffectCoupons()
+      .then(res => {
+        const { status, data } = res;
+        if (status != 200) {
+          return;
+        }
+        setCoupons(data.rows);
+      })
+  }, [])
+
+  useEffect(() => {
+    if (!code) {
+      setPriceAfterCoupon(null);
+      setCoupon(null);
+      return;
+    }
+    const products = JSON.parse(localStorage.getItem("cart"));
+    api.applyCoupon(code, products)
+    .then(res => {
+      const { status, message, data } = res;
+      if (status != 200) {
+        setModal(<p>{message}</p>)
+        setPriceAfterCoupon(0);
+        setCode(null)
+        return;
+      }
+      const { priceAfterCoupon } = data;
+      setPriceAfterCoupon(priceAfterCoupon);
+      return;
+    })
+  }, [code])
 
   const onChangeAmountInCart = (id, amount, stock, index) => {
     if (amount > stock) {
@@ -79,7 +114,7 @@ function useCart(props) {
       return;
     }
     const cart = JSON.parse(localStorage.getItem("cart"));
-    api.createOrder(cart, address, phone_number)
+    api.createOrder(cart, address, phone_number, code)
       .then((res) => {
         const { status, message, data } = res;
         console.log(res);
@@ -113,9 +148,14 @@ function useCart(props) {
     cart,
     phoneRef,
     addressRef,
+    coupons,
+    code,
     onChangeAmountInCart,
     onCreateOrder,
-    onRejectOrder
+    onRejectOrder,
+    setCode,
+    priceAfterCoupon,
+    coupon, setCoupon
   }
 }
 

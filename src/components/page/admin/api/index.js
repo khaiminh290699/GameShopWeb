@@ -55,7 +55,12 @@ export default {
     title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, product_apply, product_no_apply, category_apply, category_no_apply, code, description
   ) => {
     return baseApi.post(`/coupon/create`, {
-      title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, product_apply, product_no_apply, category_apply, category_no_apply, code, description
+      title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, 
+      product_apply: product_apply.map(item => item.id), 
+      product_no_apply: product_no_apply.map(item => item.id),  
+      category_apply: category_apply.map(item => item.id),  
+      category_no_apply: category_no_apply.map(item => item.id),  
+      code, description
     });
   }
 }
