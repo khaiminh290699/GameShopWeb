@@ -49,5 +49,13 @@ export default {
     return baseApi.post(`/category/delete`, {
       ids: [id]
     });
+  },
+
+  createCoupon: (
+    title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, product_apply, product_no_apply, category_apply, category_no_apply, code, description
+  ) => {
+    return baseApi.post(`/coupon/create`, {
+      title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, product_apply, product_no_apply, category_apply, category_no_apply, code, description
+    });
   }
 }

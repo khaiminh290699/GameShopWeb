@@ -83,6 +83,11 @@ function PageSidebar(props) {
                   Đơn hàng
                 </Link>
               </Menu.Item>
+              <Menu.Item>
+                <Link to="/admin/coupon">
+                  Ưu đãi
+                </Link>
+              </Menu.Item>
             </Menu.SubMenu>
             :
             <></>

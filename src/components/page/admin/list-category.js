@@ -19,7 +19,7 @@ function ListCategory(props) {
 
 
   const columns = [
-    { title: "Tên danh mục", dataIndex: "title", key: "title", render: (value, item) => <b><Link to={`/product/${item.id}`} >{value}</Link></b> },
+    { title: "Tên danh mục", dataIndex: "title", key: "title", render: (value, item) => <b><Link to={`/category/${item.id}`} >{value}</Link></b> },
     { title: "Hình ảnh", dataIndex: "banner", key: "banner", render: (value) => <Image src={`${API_URL}/${value}`} height={150} width={150} /> },
     { title: "Thực thi", render: (value, item, index) => {
       return <Space>

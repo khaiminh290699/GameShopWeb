@@ -22,6 +22,7 @@ import CategoryCreate from "./components/page/admin/category-create";
 import ListCategory from "./components/page/admin/list-category";
 import UpdateProfile from "./components/page/auth/update-profile";
 import Statistic from "./components/page/statistic/statistic"
+import CouponCreate from "./components/page/admin/coupon-create";
 
 function App() {
   const { user, modal, onOk, setModal, setUser } = useApp();
@@ -70,6 +71,9 @@ function App() {
                   </Route>
                   <Route path="/admin/product/create">
                     <ProductCreate setModal={setModal}></ProductCreate>
+                  </Route>
+                  <Route path="/admin/coupon/create">
+                    <CouponCreate setModal={setModal}></CouponCreate>
                   </Route>
                   <Route path="/admin/product">
                     <ListProduct setModal={setModal}></ListProduct>
