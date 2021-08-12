@@ -10,7 +10,6 @@ import useCouponCreate from "./hook/coupon-create";
 
 function CouponCreate(props) {
   const { isCreated, ref, action, state } = useCouponCreate(props);
-  console.log(state.current)
   return (
     <Card title={isCreated ? "Tạo mới ưu đãi" : "Cập nhật ưu đãi"}>
       <Form
@@ -100,11 +99,11 @@ function CouponCreate(props) {
         </Form.Item>
 
         <Form.Item label="Ngày hiệu lục">
-          <DatePicker defaultValue={moment(state.effect_at, "DD/MM/YYYY")} format={"DD/MM/YYYY"} onChange={action.onEffectDateChange} ></DatePicker>
+          <DatePicker defaultValue={state.effect_at} format={"DD/MM/YYYY"} onChange={action.onEffectDateChange} value={state.effect_at} ></DatePicker>
         </Form.Item>
 
         <Form.Item label="Ngày kết thúc ">
-          <DatePicker defaultValue={moment(state.expiry_at, "DD/MM/YYYY")} format={"DD/MM/YYYY"} onChange={action.onExpiryDateChange} ></DatePicker>
+          <DatePicker defaultValue={state.expiry_at} format={"DD/MM/YYYY"} onChange={action.onExpiryDateChange} value={state.expiry_at} ></DatePicker>
         </Form.Item>
 
         <ListTag 
@@ -136,8 +135,7 @@ function CouponCreate(props) {
         <Form.Item>
           <Button type="primary" 
             onClick = { () => {
-              isCreated ?
-              action.onCreateClick() : alert("Update")
+              action.onCreateClick();
             }}
           >
           {

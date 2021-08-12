@@ -29,6 +29,33 @@ function useCouponCreate(props) {
     min_total_price: 0
   })
 
+  useEffect(() => {
+    const { id } = params;
+    if (id) {
+      api.getCoupon(id)
+      .then((res => {
+        const { status, message, data } = res;
+        if (status != 200) {
+          return;
+        }
+        ref.title.current.value = data.coupon.title;
+        ref.code.current.value = data.coupon.code;
+        setState({
+          ...data.coupon,
+          expiry_at: moment(data.coupon.expiry_at).startOf("date"),
+          effect_at: moment(data.coupon.effect_at).endOf("date"),
+          banner: [data.coupon.banner],
+          category_no_apply: data.categoryNoApply,
+          category_apply: data.categoryApply,
+          product_apply: data.productApply,
+          product_no_apply: data.productNoApply
+        })
+      }))
+    }
+  }, [])
+
+  console.log(state)
+
   const onApplyChange = (field, value) => {
     state = { ... state, [field]: value}
     setState(state)
@@ -97,12 +124,43 @@ function useCouponCreate(props) {
   }
 
   const onCreateClick = () => {
+    const { id } = params;
 
     const title = ref.title.current.value;
     const code = ref.code.current.value;
     const {
       discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, product_apply, product_no_apply, category_apply, category_no_apply, description
     } = state;
+
+    if (id) {
+      api.updateCoupon(
+        id, title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner[0], product_apply, product_no_apply, category_apply, category_no_apply, code, description
+      ).then((res) => {
+        const { status, message } = res;
+        if (status === 400) {
+          setModal(
+            <p>
+              {message}
+            </p>
+          )
+          return;
+        }
+  
+        if (status === 500) {
+          setModal(
+            <p>
+              {message}
+            </p>
+          )
+          return;
+        }
+  
+        setModal(<p>
+          Cập nhật mã ưu đãi thành công
+        </p>)
+      })
+      return;
+    }
 
     api.createCoupon(
       title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner[0], product_apply, product_no_apply, category_apply, category_no_apply, code, description

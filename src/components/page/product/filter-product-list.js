@@ -11,8 +11,6 @@ function FilterProductList(props) {
   const { title, apply = [] , no_apply = [], setApply, setNoApply, limit = 2 } = props;
   const { state, action } = useFilterProductList(props);
 
-  console.log(state)
-
   const columns = [
     { title: "Mã Sẩn phẩm", dataIndex: "id", key: "id", render: (value, item) => <b><Link to={`/product/${item.id}`} >{value}</Link></b> },
     { title: "Tên sản phẩm", dataIndex: "title", key: "title", render: (value) => <b>{value}</b> },

@@ -62,5 +62,37 @@ export default {
       category_no_apply: category_no_apply.map(item => item.id),  
       code, description
     });
+  },
+
+  getListCoupons: (page, limit) => {
+    return baseApi.post(`/coupon/list`, {
+      wheres: { is_deleted: { eq: false } },
+      order: [["createdAt", "desc"]],
+      page, limit
+    });
+  },
+
+  getCoupon: (id) => {
+    return baseApi.get(`/coupon/${id}`);
+  },
+
+  updateCoupon: (
+    id, title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, product_apply, product_no_apply, category_apply, category_no_apply, code, description
+  ) => {
+    return baseApi.put(`/coupon/update`, {
+      id,
+      title, discount , max_discount, current, amount, min_total_price, effect_at, expiry_at, banner, 
+      product_apply: product_apply.map(item => item.id), 
+      product_no_apply: product_no_apply.map(item => item.id),  
+      category_apply: category_apply.map(item => item.id),  
+      category_no_apply: category_no_apply.map(item => item.id),  
+      code, description
+    });
+  },
+
+  deleteCoupon: (id) => {
+    return baseApi.post(`/coupon/delete`, {
+      id
+    });
   }
 }

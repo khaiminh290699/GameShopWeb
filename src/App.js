@@ -76,12 +76,15 @@ function App() {
                   <Route path="/admin/product">
                     <ListProduct setModal={setModal}></ListProduct>
                   </Route>
+                  {/* <Route path="/admin/coupon/update/:id">
+                    <CouponCreate setModal={setModal}></CouponCreate>
+                  </Route>
                   <Route path="/admin/coupon/create">
                     <CouponCreate setModal={setModal}></CouponCreate>
                   </Route>
                   <Route path="/admin/coupon">
                     <ListCoupon setModal={setModal}></ListCoupon>
-                  </Route>
+                  </Route> */}
                   <Route path="/admin/statistic">
                     <Statistic></Statistic>
                   </Route>
