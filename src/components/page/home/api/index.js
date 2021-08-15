@@ -17,5 +17,8 @@ export default {
   },
   getCateById: (id) => {
     return baseApi.get(`/category/${id}`);
+  },
+  getCoupons: (wheres, order) => {
+    return baseApi.post(`/coupon/list`, { wheres, order });
   }
 }

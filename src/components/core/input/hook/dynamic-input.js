@@ -13,7 +13,6 @@ function useDynamicInput(props) {
         label: label,
         value: ""
       });
-      console.log(fields);
       setFields([...fields])
     }
   }

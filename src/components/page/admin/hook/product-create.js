@@ -116,7 +116,6 @@ function useProductCreate(props) {
       api.updateProduct(id, title, images, price, stock, description, category_id, properties)
       .then((res) => {
         const { status, message, error } = res;
-        console.log(res);
         if (status != 200) {
           setModal(
             <p>{error ? error : message}</p>

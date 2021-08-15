@@ -9,12 +9,12 @@ function useProductDetail() {
 
   const [loading, isLoading] = useState(true)
   const [product, setProduct] = useState();
+  const [rating, setRating] = useState(0)
   const amountRef = useRef();
 
   useEffect(() => {
     api.getPorudctDetails(id)
     .then((res) => {
-      console.log(res)
       const { status, data } = res;
       if (status != 200) {
         setRedirect("/notfound");
@@ -25,11 +25,35 @@ function useProductDetail() {
     })
   }, [id])
 
+  useEffect(() => {
+    api.getRating(id)
+    .then((res) => {
+      const { status, data } = res;
+      if (status != 200) {
+        return;
+      }
+      setRating(data);
+    })
+  }, [])
+
+  const onRateChange = (value) => {
+    api.rating(id, value)
+    .then((res) => {
+      const { status, data } = res;
+      if (status != 200) {
+        return;
+      }
+      setRating(data);
+    })
+  }
+
   return {
     redirect,
     loading,
     product,
-    amountRef
+    amountRef,
+    rating,
+    onRateChange
   }
 
 }

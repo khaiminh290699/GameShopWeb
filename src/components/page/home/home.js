@@ -1,9 +1,12 @@
-import { Card, Pagination, Row } from "antd";
+import { Card, Carousel, Pagination, Row, Image } from "antd";
+import moment from "moment";
 import React from "react";
 import { Redirect } from "react-router";
+import { Link } from "react-router-dom";
 import ProductCard from "../../core/card/product-card";
 import useProduct from "./hook/useProduct";
 
+const API_URL = process.env.API_URL || "http://localhost:8080"
 function Home(props) {
 
   const { setModal } = props;
@@ -15,8 +18,17 @@ function Home(props) {
     total,
     pageIndex,
     pageSize,
+    coupons,
     onChangePageIndex
   } = useProduct(props);
+
+  const contentStyle = {
+    height: '30px',
+    color: '#fff',
+    lineHeight: '30px',
+    textAlign: 'center',
+    background: '#73a7f5',
+  };
 
   if (redirect) {
     return <Redirect to={redirect}></Redirect>
@@ -28,15 +40,39 @@ function Home(props) {
   })
 
   return (
-    <Card title={title ? `Sản phẩm của danh mục ${title}` : "Trang chủ"} >
-
-      <div style={{textAlign: "center"}}>
-        <Row>
-          {productCards}
-        </Row>
-        <Pagination current={pageIndex + 1} total={total} pageSize={pageSize} onChange={onChangePageIndex} />
-      </div>
-    </Card>
+    <>
+      {
+        coupons.length > 0 ? 
+        (
+          <Card title="Ưu đãi">
+            <Carousel afterChange={() => {}}>
+              {
+                coupons.map((coupon) => {
+                  const { id, title, banner, effect_at, expiry_at } = coupon;
+                  return (
+                    <div>
+                      <img src={`${API_URL}/${banner}`} style={{ height: 250, width: 350,  margin: "auto" }}></img>
+                      <div style={contentStyle}>
+                        <b><Link style={{ color: "black" }} to={`/coupon/${id}`}>{title}</Link></b> ({moment(effect_at).format("DD/MM/YYYY")} - {moment(expiry_at).format("DD/MM/YYYY")})
+                      </div>
+                      <div style={contentStyle}></div>
+                    </div>
+                  )
+                })
+              }
+            </Carousel>
+          </Card>
+        ) : <></>
+      }
+      <Card title={title ? `Sản phẩm của danh mục ${title}` : "Trang chủ"} >
+        <div style={{textAlign: "center"}}>
+          <Row>
+            {productCards}
+          </Row>
+          <Pagination current={pageIndex + 1} total={total} pageSize={pageSize} onChange={onChangePageIndex} />
+        </div>
+      </Card>
+    </>
   )
 }
 

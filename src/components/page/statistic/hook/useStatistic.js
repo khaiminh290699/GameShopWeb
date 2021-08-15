@@ -44,7 +44,6 @@ function useStatistic() {
 
     api.getStatisticOrder(time.amount, time.unit)
     .then((result) => {
-      console.log(result);
       const { data } = result;
       setOrderStatistic(data)
     })

@@ -56,7 +56,6 @@ function useListOrder(props) {
 
     api.getOrders(wheres , pageIndex.index, pageSize, [["createdAt", "DESC"]])
     .then((res) => {
-      console.log(res);
       const { status, data } = res;
       if (status != 200) {
         return;

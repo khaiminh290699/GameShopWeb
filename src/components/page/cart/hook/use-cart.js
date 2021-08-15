@@ -58,7 +58,7 @@ function useCart(props) {
   }, [])
 
   useEffect(() => {
-    if (!code) {
+    if (!code || code === -1) {
       setPriceAfterCoupon(null);
       setCoupon(null);
       return;
@@ -70,7 +70,6 @@ function useCart(props) {
       if (status != 200) {
         setModal(<p>{message}</p>)
         setPriceAfterCoupon(0);
-        setCode(null)
         return;
       }
       const { priceAfterCoupon } = data;
@@ -117,7 +116,6 @@ function useCart(props) {
     api.createOrder(cart, address, phone_number, code)
       .then((res) => {
         const { status, message, data } = res;
-        console.log(res);
         if (status != 200) {
           alert(message);
           return;

@@ -80,17 +80,30 @@ function Cart(props) {
                   <Input ref={phoneRef}></Input>
                 </Form.Item>
                 <Form.Item label="Chọn mã ưu đãi :">
-                  <Select onChange={(value) => {
+                  <Select defaultValue={-1} onChange={(value) => {
+                    if (value === -1) {
+                      setCode(null);
+                      setCoupon(null);
+                      return;
+                    }
                     setCode(value);
                     setCoupon(coupons.filter(item => item.code === value)[0])
                   }}>
+                    <Select.Option 
+                      key={-1}
+                      value={-1}
+                    >
+                      Không áp dụng
+                    </Select.Option>
                     {
                       coupons.map((coupon) => {
                         return (
                           <Select.Option 
                             key={coupon.id}
                             value={coupon.code}
-                          />
+                          >
+                            {coupon.code}
+                          </Select.Option>
                         )
                       })
                     }
@@ -101,7 +114,7 @@ function Cart(props) {
                   <>
                     <div>
                       <label>Mã ưu đãi đã chọn:</label>
-                      <p><b>Mã: </b> {code}</p>
+                      <p><b>Mã: </b> <Link to={`/coupon/${coupon.id}`}>{code}</Link></p>
                       <p><b>Tên ưu đãi: </b> {coupon.title}</p>
                       <p><b>Giảm giá: </b> { coupon.current === 2 ? `${coupon.discount}%` : convertMoney(coupon.discount) }</p>
                       <p><b>Giảm tối đa: </b> {convertMoney(coupon.max_discount)}</p>

@@ -45,7 +45,6 @@ function useSignIn() {
           }
           return;
         }
-        console.log(data);
         localStorage.setItem("cart", JSON.stringify([]))
         localStorage.setItem("user", JSON.stringify(data))
         localStorage.setItem("token", data.token)

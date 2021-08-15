@@ -24,13 +24,14 @@ import UpdateProfile from "./components/page/auth/update-profile";
 import Statistic from "./components/page/statistic/statistic"
 import CouponCreate from "./components/page/admin/coupon-create";
 import ListCoupon from "./components/page/admin/list-coupon";
+import Coupon from "./components/page/coupon/coupon";
 
 function App() {
   const { user, modal, onOk, setModal, setUser } = useApp();
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
-      <Modal title="Basic Modal" visible={modal ? true : false} onOk={onOk}>
+      <Modal title="Info" visible={modal ? true : false} onOk={onOk}>
         {modal}
       </Modal>
       <PageSidebar user={user}></PageSidebar>
@@ -76,7 +77,7 @@ function App() {
                   <Route path="/admin/product">
                     <ListProduct setModal={setModal}></ListProduct>
                   </Route>
-                  {/* <Route path="/admin/coupon/update/:id">
+                  <Route path="/admin/coupon/update/:id">
                     <CouponCreate setModal={setModal}></CouponCreate>
                   </Route>
                   <Route path="/admin/coupon/create">
@@ -84,7 +85,7 @@ function App() {
                   </Route>
                   <Route path="/admin/coupon">
                     <ListCoupon setModal={setModal}></ListCoupon>
-                  </Route> */}
+                  </Route>
                   <Route path="/admin/statistic">
                     <Statistic></Statistic>
                   </Route>
@@ -109,6 +110,9 @@ function App() {
             }}></Route>
             <Route path="/cart">
               <Cart setModal={setModal}></Cart>
+            </Route>
+            <Route path="/coupon/:id">
+              <Coupon setModal={setModal} ></Coupon>
             </Route>
             <Route path="/product/:id">
               <ProductDetail setModal={setModal} ></ProductDetail>

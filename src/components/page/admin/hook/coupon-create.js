@@ -54,8 +54,6 @@ function useCouponCreate(props) {
     }
   }, [])
 
-  console.log(state)
-
   const onApplyChange = (field, value) => {
     state = { ... state, [field]: value}
     setState(state)

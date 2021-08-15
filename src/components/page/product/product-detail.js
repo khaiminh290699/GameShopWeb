@@ -1,9 +1,10 @@
-import { Button, Card, Col, InputNumber, Row } from "antd";
+import { Button, Card, Col, InputNumber, Rate, Row } from "antd";
 import React from "react";
 import { Redirect } from "react-router";
 import convertMoney from "../../../ultilities/moneyConvert";
 import ImageSlider from "../../core/images/images-slider";
 import ProductSkeleton from "../../core/loading/product-skeleton";
+import Comments from "../comment/comments";
 import useAddCart from "./hook/add-cart";
 import useProductDetail from "./hook/product-detail";
 
@@ -18,7 +19,7 @@ function ProductInfo(props) {
 }
 
 function ProductDetail(props) {
-  const { redirect, loading, product, amountRef } = useProductDetail(props);
+  const { redirect, loading, product, amountRef, rating, onRateChange } = useProductDetail(props);
   const { onAddToCart } = useAddCart(props);
   if (redirect) {
     return <Redirect to={redirect} ></Redirect>
@@ -45,10 +46,26 @@ function ProductDetail(props) {
                 return <ProductInfo key={id} label={label} value={value} />
               })
             }
+            <ProductInfo label={"Đánh giá"} value={
+              <>
+                <Rate disabled allowHalf defaultValue={+product.rating.avg_rating} />    
+                <span style={{ marginLeft: 10, color: "gray" }} >{product.rating.total_rating} người đã đánh giá</span>
+              </>
+            } />
             <div>
               <label>Thêm vào giỏ hàng : </label>
               <InputNumber min={1} max={product.stock} defaultValue={1} ref={amountRef} ></InputNumber>
               <span style={{ color: "gray" }} > số lượng tồn kho hiện tại {product.stock} sản phẩm</span>
+            </div>
+            <div>
+              {
+                rating.not_rated ?
+                <>Bạn chưa đánh giá, hãy dánh giá </>
+                :
+                <>Bạn đã dánh giá</>
+              } <Rate defaultValue={rating.rating} value={rating.rating} 
+                onChange={onRateChange}
+              />  
             </div>
             <br/>
             <div>
@@ -57,9 +74,10 @@ function ProductDetail(props) {
           </div>
         </Col>
       </Row>
-      <Card className="description" title="Mô Tả" >
+      <Card title="Mô Tả" >
         <td dangerouslySetInnerHTML={{__html: product.description}} />
       </Card>
+      <Comments {...props} ></Comments>
     </div>
     :
     <></>

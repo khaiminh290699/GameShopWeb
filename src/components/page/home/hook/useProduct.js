@@ -12,6 +12,7 @@ function useProduct() {
   const [total, setTotal] = useState(100);
   const [pageIndex, setPageIndex] = useState(0);
   const [title, setTitle] = useState();
+  const [coupons, setCoupons] = useState([]);
 
   useEffect(() => {
     const wheres = id ? { category_id: { eq: id } } : {}
@@ -41,6 +42,26 @@ function useProduct() {
     })
   } , [pageIndex, id])
 
+  useEffect(() => {
+    if (!id) {
+      api.getCoupons({
+        effect_at: { lte: new Date() },
+        expiry_at: { gte: new Date() }
+      }, [["createdAt", "DESC"]])
+      .then((result) => {
+        const { status, data } = result;
+        if (status != 200) {
+          return;
+        }
+        const { rows } = data;
+  
+        setCoupons(rows)
+      })
+    } else {
+      setCoupons([]);
+    }
+  }, [id])
+
   const onChangePageIndex = (value) => {
     setPageIndex(value - 1)
   }
@@ -56,6 +77,7 @@ function useProduct() {
     total,
     pageIndex,
     pageSize,
+    coupons,
     onChangePageIndex,
     onDeleteProduct
   }

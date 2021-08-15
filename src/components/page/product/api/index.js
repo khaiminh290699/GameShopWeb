@@ -29,4 +29,16 @@ export default {
       order
     })
   },
+
+  getRating(product_id) {
+    return baseApi.post("/product/get-rating", {
+      product_id
+    })
+  },
+
+  rating(product_id, rating) {
+    return baseApi.post("/product/rating", {
+      product_id, rating
+    })
+  },
 }
