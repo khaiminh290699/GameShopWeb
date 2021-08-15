@@ -20,5 +20,8 @@ export default {
   },
   getCoupons: (wheres, order) => {
     return baseApi.post(`/coupon/list`, { wheres, order });
+  },
+  getTopRate: (category_id, top) => {
+    return baseApi.post(`/product/top-rating`, { category_id, top });
   }
 }

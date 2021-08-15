@@ -1,4 +1,4 @@
-import { Button, Card, Col, Divider, Row } from "antd";
+import { Button, Card, Col, Divider, Rate, Row } from "antd";
 import React from "react";
 import convertMoney from "../../../ultilities/moneyConvert";
 import { Link } from "react-router-dom";
@@ -7,8 +7,7 @@ import useProductCard from "./hook/use-product-card"
 const API_URL = process.env.API_URL || "http://localhost:8080"
 
 function ProductCard(props) {
-  const { id, image, title, stock, price } = props;
-
+  const { id, image, title, stock, price, rating } = props;
   const {
     hover,
     onHover,
@@ -22,7 +21,15 @@ function ProductCard(props) {
       >
         <img src={`${API_URL}/${image}`} className="img-product-card"></img>
         <Divider></Divider>
-        <h5>{title}</h5>
+        <div style={{height: 50}}>
+          <h5>{title}</h5>
+        </div>
+        {
+          typeof rating === "number" ?
+          <Rate disabled allowHalf defaultValue={rating} ></Rate>
+          :
+          <></>
+        }
         <Row>
           <Col span={12}>
             <Button type="primary" className="add-cart-product-card"

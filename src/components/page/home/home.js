@@ -2,7 +2,7 @@ import { Card, Carousel, Pagination, Row, Image } from "antd";
 import moment from "moment";
 import React from "react";
 import { Redirect } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ProductCard from "../../core/card/product-card";
 import useProduct from "./hook/useProduct";
 
@@ -10,6 +10,7 @@ const API_URL = process.env.API_URL || "http://localhost:8080"
 function Home(props) {
 
   const { setModal } = props;
+  const { id } = useParams();
 
   const {
     title,
@@ -19,6 +20,7 @@ function Home(props) {
     pageIndex,
     pageSize,
     coupons,
+    topRate, top,
     onChangePageIndex
   } = useProduct(props);
 
@@ -41,6 +43,21 @@ function Home(props) {
 
   return (
     <>
+      {
+        id ?
+        <Card title={`Top 3 sản phẩm được đánh giá cáo nhất của danh mục ${title}`}>
+          <Row>
+            {
+              topRate.map((item) => {
+                const { id, images, title, stock, price, avg_rating: rating } = item;
+                return <ProductCard id={id} image={images.main} title={title} stock={stock} price={price} setModal={setModal} rating={+rating} ></ProductCard>
+              })
+            }
+          </Row>
+        </Card>
+        :
+        <></>
+      }
       {
         coupons.length > 0 ? 
         (
@@ -65,7 +82,7 @@ function Home(props) {
         ) : <></>
       }
       <Card title={title ? `Sản phẩm của danh mục ${title}` : "Trang chủ"} >
-        <div style={{textAlign: "center"}}>
+        <div>
           <Row>
             {productCards}
           </Row>

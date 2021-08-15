@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import api from "../api";
 
+const top = 3;
 function useProduct() {
 
   const pageSize = 20;
@@ -13,6 +14,7 @@ function useProduct() {
   const [pageIndex, setPageIndex] = useState(0);
   const [title, setTitle] = useState();
   const [coupons, setCoupons] = useState([]);
+  const [topRate, setTopRate] = useState([]);
 
   useEffect(() => {
     const wheres = id ? { category_id: { eq: id } } : {}
@@ -59,6 +61,12 @@ function useProduct() {
       })
     } else {
       setCoupons([]);
+      api.getTopRate(id, 3)
+      .then(({ status, data }) => {
+        if (status === 200) {
+          setTopRate(data);
+        }
+      })
     }
   }, [id])
 
@@ -69,7 +77,6 @@ function useProduct() {
   const onDeleteProduct = (id) => {
     setProducts(products.filter((item) => item.id != id))
   }
-
   return {
     title,
     redirect,
@@ -78,6 +85,8 @@ function useProduct() {
     pageIndex,
     pageSize,
     coupons,
+    topRate,
+    top,
     onChangePageIndex,
     onDeleteProduct
   }
