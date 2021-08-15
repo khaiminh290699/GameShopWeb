@@ -21,23 +21,25 @@ function CommentContent(props) {
         actions={[
           <Tooltip key="comment-basic-like" title="Like">
             <span onClick={() => {
-              baseApi.post(state.comment.Likes[0] ? "/comment/unlike" : "/comment/like", {
-                comment_id: state.comment.id
-              })
-              .then(({ status, data }) => {
-                if (status === 200) {
-                  if (state.comment.Likes[0]) {
-                    state.comment.Likes[0] = false;
-                  } else {
-                    state.comment.Likes[0] = true;
+              if (state.comment.Likes) {
+                baseApi.post(state.comment.Likes[0] ? "/comment/unlike" : "/comment/like", {
+                  comment_id: state.comment.id
+                })
+                .then(({ status, data }) => {
+                  if (status === 200) {
+                    if (state.comment.Likes[0]) {
+                      state.comment.Likes[0] = false;
+                    } else {
+                      state.comment.Likes[0] = true;
+                    }
+                    state.comment = { ...state.comment, ...data }
+                    state = { ... state};
+                    setState(state)
                   }
-                  state.comment = { ...state.comment, ...data }
-                  state = { ... state};
-                  setState(state)
-                }
-              })
+                })
+              }
             }}>
-              {createElement(state.comment.Likes[0] ? LikeFilled : LikeOutlined)}
+              {createElement(state.comment.Likes && state.comment.Likes[0] ? LikeFilled : LikeOutlined)}
               <span className="comment-action">{state.comment.amount_like}</span>
             </span>
           </Tooltip>,

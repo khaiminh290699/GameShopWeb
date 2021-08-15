@@ -137,42 +137,47 @@ function Coupon() {
           )
         }
       </Card>
-      <Card title="Không áp dụng">
-        {
-          state.except_category.length > 0 ?
-          (
-            <div>
-              <label>Không áp dụng cho các sản phẩm thuộc các danh mục sau:</label>
+      {
+        state.except_product.length > 0 && state.except_category.length > 0 ?
+        <Card title="Không áp dụng">
+          {
+            state.except_category.length > 0 ?
+            (
               <div>
-                {
-                  state.except_category.map((cate) => {
-                    return <Tag color="red"><Link to={`/category/${cate.id}`}><b>{cate.title}</b></Link></Tag>
-                  })
-                }
+                <label>Không áp dụng cho các sản phẩm thuộc các danh mục sau:</label>
+                <div>
+                  {
+                    state.except_category.map((cate) => {
+                      return <Tag color="red"><Link to={`/category/${cate.id}`}><b>{cate.title}</b></Link></Tag>
+                    })
+                  }
+                </div>
               </div>
-            </div>
-          )
-          :
-          (<></>)
-        }
-        {
-          state.except_product.length > 0 ?
-          (
-            <div>
-              <label>Không áp dụng cho các sản phẩm:</label>
+            )
+            :
+            (<></>)
+          }
+          {
+            state.except_product.length > 0 ?
+            (
               <div>
-                {
-                  state.except_product.map((product) => {
-                    return <Tag color="red"><Link to={`/product/${product.id}`}><b>{product.title}</b></Link></Tag>
-                  })
-                }
+                <label>Không áp dụng cho các sản phẩm:</label>
+                <div>
+                  {
+                    state.except_product.map((product) => {
+                      return <Tag color="red"><Link to={`/product/${product.id}`}><b>{product.title}</b></Link></Tag>
+                    })
+                  }
+                </div>
               </div>
-            </div>
-          )
-          :
-          (<></>)
-        }
-      </Card>
+            )
+            :
+            (<></>)
+          }
+        </Card>
+        :
+        <></>
+      }
     </Card>
   )
 }
