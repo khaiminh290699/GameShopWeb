@@ -116,7 +116,7 @@ function Cart(props) {
                       <label>Mã ưu đãi đã chọn:</label>
                       <p><b>Mã: </b> <Link to={`/coupon/${coupon.id}`}>{code}</Link></p>
                       <p><b>Tên ưu đãi: </b> {coupon.title}</p>
-                      <p><b>Giảm giá: </b> { coupon.current === 2 ? `${coupon.discount}%` : convertMoney(coupon.discount) }</p>
+                      <p><b>Giảm giá: </b> { coupon.current === 1 ? `${coupon.discount}%` : convertMoney(coupon.discount) }</p>
                       <p><b>Giảm tối đa: </b> {convertMoney(coupon.max_discount)}</p>
                       <p><b>Giá tối thiểu để áp dụng: </b> {convertMoney(coupon.min_total_price)}</p>
                     </div>

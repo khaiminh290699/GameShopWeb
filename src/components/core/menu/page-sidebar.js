@@ -88,6 +88,11 @@ function PageSidebar(props) {
                   Ưu đãi
                 </Link>
               </Menu.Item>
+              <Menu.Item>
+                <Link to="/admin/import">
+                  Nhập kho
+                </Link>
+              </Menu.Item>
             </Menu.SubMenu>
             :
             <></>

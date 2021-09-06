@@ -187,7 +187,7 @@ function CommentContent(props) {
           state.replies.map((reply) => {
             return (
               <Comment key={reply.id}
-                author={<p><b>{reply.Contact.username}</b> đã phản hồi { moment().diff(moment(reply.createdAt), "minutes") < 60 ? `${moment().diff(moment(state.comment.createdAt), "minutes")} phút trước` : moment(state.comment.createdAt).format("DD/MM/YYYY HH:mm")  }</p>}
+                author={<p><b>{reply.Contact.username}</b> đã phản hồi { moment().diff(moment(reply.createdAt), "minutes") < 60 ? `${moment().diff(moment(reply.createdAt), "minutes")} phút trước` : moment(reply.createdAt).format("DD/MM/YYYY HH:mm")  }</p>}
                 content={<p>{reply.body}</p>}
               ></Comment>
             )

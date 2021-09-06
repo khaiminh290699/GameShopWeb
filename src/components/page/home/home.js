@@ -68,7 +68,7 @@ function Home(props) {
                   const { id, title, banner, effect_at, expiry_at } = coupon;
                   return (
                     <div>
-                      <img src={`${API_URL}/${banner}`} style={{ height: 250, width: 350,  margin: "auto" }}></img>
+                      <img src={`${API_URL}/${banner}`} style={{ height: 100, width: 250,  margin: "auto" }}></img>
                       <div style={contentStyle}>
                         <b><Link style={{ color: "black" }} to={`/coupon/${id}`}>{title}</Link></b> ({moment(effect_at).format("DD/MM/YYYY")} - {moment(expiry_at).format("DD/MM/YYYY")})
                       </div>

@@ -25,6 +25,8 @@ import Statistic from "./components/page/statistic/statistic"
 import CouponCreate from "./components/page/admin/coupon-create";
 import ListCoupon from "./components/page/admin/list-coupon";
 import Coupon from "./components/page/coupon/coupon";
+import ImportGoods from "./components/page/admin/import-goods";
+import ImportDetail from "./components/page/admin/import-detail";
 
 function App() {
   const { user, modal, onOk, setModal, setUser } = useApp();
@@ -88,6 +90,12 @@ function App() {
                   </Route>
                   <Route path="/admin/statistic">
                     <Statistic></Statistic>
+                  </Route>
+                  <Route path="/admin/import/:id">
+                    <ImportDetail></ImportDetail>
+                  </Route>
+                  <Route path="/admin/import">
+                    <ImportGoods setModal={setModal}></ImportGoods>
                   </Route>
                 </Switch>
               )

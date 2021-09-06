@@ -64,7 +64,7 @@ function Coupon() {
                 <input className="ant-input" value={state.title} disabled />
               </Form.Item>
               <Form.Item label="Tình trạng">
-                <input className="ant-input" value={new Date() <= state.effect_at ? "Chưa đến thời gian hiệu lực" : new Date() >= state.expiry_at ? "Hết liệu lục" : state.amount <= 0 ? "Hết số ưu đãi" : "Có thể dùng"} disabled />
+                <input className="ant-input" value={new Date() <= new Date(state.effect_at) ? "Chưa đến thời gian hiệu lực" : ( new Date() >= new Date(state.expiry_at) ? "Hết liệu lục" : ( state.amount <= 0 ? "Hết số ưu đãi" : "Có thể dùng" ) )} disabled />
               </Form.Item>
               <Form.Item label="Số lượng">
                 <input className="ant-input" value={state.amount} disabled />

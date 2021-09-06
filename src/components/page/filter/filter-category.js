@@ -45,9 +45,10 @@ function FilterCategory(props) {
     { title: "Hình ảnh", dataIndex: "banner", key: "banner", width: "10%",render: (value) => <Image src={`${API_URL}/${value}`} height={100} width={100} /> },
     { title: "Số lượng sản phẩm", dataIndex: "total_product", key: "total_product", width: "20%",render: (value) => <p>{value}</p> },
     { title: "Áp dụng", width: "30%", render: (item) => {
+
       if (except_category.includes(item.id)) {
         return <Button type="default" size="small" onClick={() => { 
-          let index = except_category.indexOf(item.category_id);
+          let index = except_category.indexOf(item.id);
           if (index != -1) {
             except_category.splice(index, 1);
             apply = { ...apply, except_category }
@@ -65,8 +66,10 @@ function FilterCategory(props) {
               if (index != -1) {
                 apply_category.splice(index, 1);
                 apply = { ...apply, apply_category }
-                setApply(apply);
               }
+              except_category.push(item.id);
+              apply = { ...apply, except_category }
+              setApply(apply);
             }}>Huỷ áp dụng</Button>
           </>
         )
