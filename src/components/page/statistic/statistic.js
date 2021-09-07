@@ -84,6 +84,12 @@ function Statistic(props) {
         </div>
       </Row>
       <Row>
+        <div>
+          <label>Tổng nhập kho : </label>
+          <span> { convertMoney(overall.total_chi) }</span>
+        </div>
+      </Row>
+      <Row>
         <Col span={14}>
           <Card title="Top 3 sản phẩm chạy nhất" >
             <Table columns={columnsProduct} dataSource={topProduct} pagination={false}></Table>

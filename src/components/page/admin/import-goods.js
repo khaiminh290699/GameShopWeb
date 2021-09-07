@@ -49,8 +49,10 @@ function ImportGoods(props) {
         setModal(<p>{message}</p>);
         return;
       }
+      list.unshift(proccess);
+      list = [...list]
       state = {
-        ...state, proccess, importing: true 
+        ...state, proccess, importing: true, list
       }
       setState(state)
     })
@@ -91,7 +93,7 @@ function ImportGoods(props) {
         }
         setState(state);
       }
-      socket.on(`import_goods_${state.proccess.id}`, ({ import_id, imported, status, error }) => {
+      socket.on(`import_goods_${state.proccess.id}`, ({ import_id, imported, status, error, total_price }) => {
         const proccess = {
           ...state.proccess,
           amount_imported: imported,
@@ -113,9 +115,38 @@ function ImportGoods(props) {
                 })
               }
             </p>)
-            return;
+          } else {
+            setModal(<p>Nhập hàng thành công</p>)
           }
-          setModal(<p>Nhập hàng thành công</p>)
+          const index = list.findIndex((item) => item.id === import_id);
+          if (index != -1) {
+            const process = list[index];
+            list[index] = {
+              ...process,
+              amount_imported: imported,
+              total_price,
+              status
+            }
+            list = [...list]
+            state = {
+              ...state, list
+            }
+            setState(state)
+          }
+        } else {
+          const index = list.findIndex((item) => item.id === import_id);
+          if (index != -1) {
+            const process = list[index];
+            list[index] = {
+              ...process,
+              amount_imported: imported,
+            }
+            list = [...list]
+            state = {
+              ...state, list
+            }
+            setState(state)
+          }
         }
       })
     }
@@ -126,9 +157,10 @@ function ImportGoods(props) {
     { title: "Mã nhập kho", dataIndex: "id", key: "id", render: (value, item) => <b><Link to={`/admin/import/${item.id}`} >{value}</Link></b> },
     { title: "Người nhập", dataIndex: "Contact", key: "Contact", render: (value) => <b>{value.username}</b> },
     { title: "Số lượng nhập", dataIndex: "amount_product", key: "amount_product", render: (value) => <p>{value}</p> },
-    { title: "Tổng tiền", dataIndex: "total_price", key: "total_price", render: (value) => <p>{convertMoney(value)}</p> },
+    { title: "Số lượng nhập hợp lệ", dataIndex: "amount_imported", key: "amount_imported", render: (value) => <p>{value}</p> },
+    { title: "Tổng tiền", dataIndex: "total_price", key: "total_price", render: (value) => <p>{value ? convertMoney(value) : "Đang tinh toán..."}</p> },
     { title: "Trạng thái", dataIndex: "status", key: "stock", render: (value) => <p>{value}</p> },
-    { title: "Ngày tạo", dataIndex: "createdAt", key: "createdAt", render: (value) => <p>{moment(value).format("DD/MM/YYYY")}</p> },
+    { title: "Ngày tạo", dataIndex: "createdAt", key: "createdAt", render: (value) => <p>{moment(value).format("DD/MM/YYYY HH:mm")}</p> },
   ];
 
   return (
@@ -167,7 +199,7 @@ function ImportGoods(props) {
       <Table columns={columns} dataSource={state.list} pagination={false} ></Table>
       <div style={{textAlign: "center"}}>
         <Pagination current={state.page + 1} total={state.total} pageSize={state.limit} onChange={() => {
-          const state = {
+          state = {
             ...state, page: state.page + 1
           }
           setState(state)
